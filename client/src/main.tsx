@@ -2,8 +2,15 @@ import React, { useState } from "react";
 import { useGameStore } from "./store";
 
 export const Main = () => {
-  const { board, currentPlayer, winner, handleClick, resetGame } =
-    useGameStore();
+  const {
+    board,
+    boardSize,
+    currentPlayer,
+    winner,
+    handleClick,
+    resetGame,
+    setBoardSize,
+  } = useGameStore();
 
   console.log("currentPlayer", currentPlayer);
 
@@ -11,6 +18,20 @@ export const Main = () => {
     <div className="flex flex-col mt-10 items-center gap-10">
       <div className="font-bold text-2xl">Tic Tac Toe</div>
       <div className="font-bold text-xl">Time for {currentPlayer} to play</div>
+      <div className="flex items-center gap-2">
+        <label htmlFor="boardSize" className="font-bold">
+          Board Size:
+        </label>
+        <input
+          id="boardSize"
+          type="number"
+          min="3"
+          max="15"
+          value={boardSize}
+          onChange={(e) => setBoardSize(Number(e.target.value))}
+          className="border-2 border-gray-900 p-1 w-16 text-center"
+        />
+      </div>
       <div className="flex flex-col gap-1">
         {board.map((row, rowIndex) => (
           <div className="flex gap-1" key={rowIndex}>
@@ -31,6 +52,7 @@ export const Main = () => {
           {winner === "Draw" ? "No winner" : `Winner: ${winner}`}
         </div>
       )}
+
       <button
         className="mt-4 py-2 px-4 border-2 border-gray-900 text-xl"
         onClick={resetGame}
